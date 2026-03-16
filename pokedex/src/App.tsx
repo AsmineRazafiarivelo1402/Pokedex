@@ -1,14 +1,14 @@
 
 
 import './App.css'
-
+import Navbaar from './assets/components/Navbar'
 function App() {
  
 
   return (
     <>
+   <Navbaar />
    
-    <h1 className='text-2xl bg-red-600'>Asmine</h1>
      
 
       
