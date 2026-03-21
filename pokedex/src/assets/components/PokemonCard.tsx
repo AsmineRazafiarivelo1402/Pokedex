@@ -4,11 +4,11 @@ import { useRef } from "react";
 interface props {
   name: string;
   cries: string;
-  color: string;
+  
   image: string;
 }
 
-function PokemonCard({ image, name, cries, color }: props) {
+function PokemonCard({ image, name, cries}: props) {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const playSound = () => {
@@ -37,7 +37,7 @@ function PokemonCard({ image, name, cries, color }: props) {
 
           <audio ref={audioRef} src={cries} />
 
-          <h1>{color}</h1>
+         
         </div>
 
       </div>

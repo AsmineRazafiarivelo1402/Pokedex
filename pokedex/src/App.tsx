@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
@@ -14,9 +13,24 @@ function App() {
     axios
       .get("https://pokeapi.co/api/v2/pokemon?limit=50")
       .then((res) => {
-        setPokemons(res.data.results);
+
+        const apiPokemons = res.data.results;
+
+        // récupérer les pokemons du localStorage
+        const localPokemons = JSON.parse(
+          localStorage.getItem("pokemons") || "[]"
+        );
+
+        // fusionner API + localStorage
+        setPokemons([...apiPokemons, ...localPokemons]);
       });
+
   }, []);
+
+  // fonction pour ajouter un pokemon
+  const addPokemon = (pokemon: any) => {
+    setPokemons((prev) => [...prev, pokemon]);
+  };
 
   const filteredPokemons = pokemons.filter((pokemon) => {
     return (
@@ -30,6 +44,7 @@ function App() {
       <Navbaar
         setSearchName={setSearchName}
         setSearchColor={setSearchColor}
+        addPokemon={addPokemon}
       />
 
       <div className="grid grid-cols-4 gap-5 p-10">
@@ -37,9 +52,14 @@ function App() {
           <PokemonCard
             key={index}
             name={pokemon.name}
-            image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`}
-            cries={`https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${index + 1}.ogg`}
-            color="yellow"
+            image={
+              pokemon.image ||
+              `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`
+            }
+            cries={
+              pokemon.sound ||
+              `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${index + 1}.ogg`
+            }
           />
         ))}
       </div>
